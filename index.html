@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matemática Descomplicada | Blog Completo</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><style>.fundo { fill: %230056b3; } .texto { fill: white; font-family: sans-serif; font-weight: bold; font-size: 65px; }</style><rect class='fundo' width='100' height='100' rx='20' /><text class='texto' x='50' y='72' text-anchor='middle'>M</text></svg>">
+    
+    <style>
+        :root {
+            --cor-fundo: #f4f7f6;
+            --cor-texto: #333333;
+            --cor-primaria: #0056b3;
+            --cor-secundaria: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--cor-primaria);
+            color: var(--cor-secundaria);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: var(--cor-secundaria);
+            margin: 5px 15px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        nav button:hover {
+            text-decoration: underline;
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        #btn-tema {
+            background-color: #ffcc00;
+            color: #333;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        #btn-tema:hover {
+            transform: scale(1.05);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .card-post {
+            background-color: var(--cor-secundaria);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.06);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .card-post:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+        }
+
+        .card-post h2 {
+            color: var(--cor-primaria);
+            margin-bottom: 10px;
+        }
+
+        .card-post h3 {
+            color: #333;
+            margin: 15px 0 5px 0;
+        }
+        
+        .card-post p {
+            margin-bottom: 12px;
+        }
+
+        .btn-ler {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 15px;
+            background-color: var(--cor-primaria);
+            color: var(--cor-secundaria);
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-ler:hover {
+            opacity: 0.95;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            margin-top: auto;
+        }
+
+        .pagina {
+            display: none;
+        }
+
+        .pagina.ativa {
+            display: block;
+            animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bloco-formula {
+            background: #e9ecef;
+            padding: 15px;
+            border-left: 5px solid var(--cor-primaria);
+            margin: 15px 0;
+            color: #333;
+        }
+        
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .secao-quiz {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px dashed #ccc;
+        }
+
+        .quiz-container-dinamico {
+            margin-top: 15px;
+        }
+
+        .bloco-questao {
+            background-color: rgba(0, 0, 0, 0.02);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 3px solid #ccc;
+        }
+
+        .bloco-questao h4 {
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+            color: var(--cor-texto);
+        }
+
+        .quiz-opcao {
+            display: block;
+            margin: 8px 0;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+
+        .quiz-opcao:hover {
+            background-color: rgba(0, 86, 179, 0.05);
+            color: var(--cor-primaria);
+        }
+
+        .quiz-opcao input {
+            margin-right: 10px;
+        }
+
+        .btn-verificar {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-verificar:hover {
+            background-color: #218838;
+        }
+
+        .feedback-resposta {
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .feedback-sucesso { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .feedback-erro { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+        .img-post {
+            max-width: 100%;
+            height: auto;
+            max-height: 350px;
+            border-radius: 6px;
+            margin: 15px auto;
+            display: block;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: white;
+            object-fit: contain;
+        }
+
+        @media (max-width: 600px) {
+            nav button { display: block; margin: 10px auto; }
+        }
+
+        body.dark-mode {
+            --cor-fundo: #1e1e1e;
+            --cor-texto: #e0e0e0;
+            --cor-secundaria: #2d2d2d;
+        }
+
+        body.dark-mode .bloco-formula { background: #3d3d3d; color: #e0e0e0; }
+        body.dark-mode .bloco-questao { background-color: rgba(255, 255, 255, 0.03); }
+        body.dark-mode .feedback-sucesso { background-color: #1e4620; color: #a3cfbb; border-color: #2e6930; }
+        body.dark-mode .feedback-erro { background-color: #5c1d24; color: #ea9999; border-color: #842029; }
+        body.dark-mode .img-post { filter: brightness(0.9); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Matemática Descomplicada</h1>
+        <p>Entendendo os números de forma simples e direta.</p>
+        
+        <nav>
+            <button onclick="mudarPagina('home')">Conteúdos</button>
+            <button onclick="mudarPagina('historia')">Minha História</button>
+            <button onclick="mudarPagina('sobre')">Contato</button>
+        </nav>
+        
+        <button id="btn-tema">🌙 Modo Escuro</button>
+    </header>
+
+    <main class="container">
+        
+        <div id="home" class="pagina ativa">
+            
+            <article class="card-post">
+                <h2>Equações do 1º Grau: O Segredo da Balança</h2>
+                <p>Aprenda a desvendar o valor de X usando o princípio do equilíbrio e isolamento matemático.</p>
+                <button class="btn-ler" onclick="mudarPagina('post-equacao1')">Ler Artigo & Responder Quiz (10 Questões)</button>
+            </article>
+
+            <article class="card-post">
+                <h2>Função do 1º Grau: Linhas Retas e Gráficos</h2>
+                <p>Entenda como funcionam as funções afins e o comportamento das retas crescentes e decrescentes.</p>
+                <button class="btn-ler" onclick="mudarPagina('post-funcao1')">Ler Artigo & Responder Quiz (10 Questões)</button>
+            </article>
+
+            <article class="card-post">
+                <h2>Equações do 2º Grau e a Fórmula de Bhaskara</h2>
+                <p>Um guia definitivo para resolver equações quadráticas identificando os coeficientes e aplicando o Delta.</p>
+                <button class="btn-ler" onclick="mudarPagina('post-bhaskara')">Ler Artigo & Responder Quiz (10 Questões)</button>
+            </article>
+
+            <article class="card-post">
+                <h2>Função do 2º Grau: Curvas, Parábolas e Vértices</h2>
+                <p>Descubra o formato de U, os intervalos crescentes/decrescentes e as fórmulas de Xv e Yv do vértice.</p>
+                <button class="btn-ler" onclick="mudarPagina('post-funcao2')">Ler Artigo & Responder Quiz (10 Questões)</button>
+            </article>
+
+            <article class="card-post">
+                <h2>Sistemas de Equações: Incógnitas e Resoluções</h2>
+                <p>Aprenda a diferença entre resolver equações de 1 incógnita e sistemas complexos de 2 incógnitas.</p>
+                <button class="btn-ler" onclick="mudarPagina('post-sistemas')">Ler Artigo & Responder Quiz (10 Questões)</button>
+            </article>
+
+            <article class="card-post">
+                <h2>O Teorema de Pitágoras no Dia a Dia</h2>
+                <p>Descubra como aplicar a fórmula dos triângulos retângulos em situações reais.</p>
+                <button class="btn-ler" onclick="mudarPagina('post-pitagoras')">Ler Artigo & Responder Quiz (10 Questões)</button>
+            </article>
+
+            <article class="card-post">
+                <h2>Trigonometria: Seno, Cosseno e Tangente</h2>
+                <p>Domine o famoso SOH-CAH-TOA e entenda as relações métricas dos triângulos.</p>
+                <button class="btn-ler" onclick="mudarPagina('post-trig')">Ler Artigo & Responder Quiz (10 Questões)</button>
+            </article>
+
+            <article class="card-post">
+                <h2>O Erro de 125 Milhões de Dólares da NASA</h2>
+                <p>Como uma confusão matemática básica entre metros e polegadas fez uma sonda espacial virar poeira em Marte.</p>
+                <button class="btn-ler" onclick="mudarPagina('post-nasa')">Ler Artigo & Responder Quiz (10 Questões)</button>
+            </article>
+
+        </div>
+
+        <div id="historia" class="pagina">
+            <section class="card-post">
+                <h2>Quem está por trás do blog?</h2>
+                <p>Olá! Meu nome é <strong>Felipe</strong>, tenho 15 anos e atualmente sou estudante na escola <strong>CETI PROFESSOR DARCY ARAUJO</strong>.</p>
+                <p>Sempre tive muita curiosidade sobre tecnologia e como o mundo digital funciona nos bastidores. Por isso, tracei um objetivo claro para o meu futuro: quero trabalhar profissionalmente como <strong>programador de sites</strong>, desenvolvendo plataformas completas, criativas e repletas de diversos conteúdos para a internet.</p>
+            </section>
+        </div>
+
+        <div id="post-equacao1" class="pagina">
+            <article class="card-post">
+                <h2>Equações do 1º Grau: O Segredo da Balança</h2>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ccc;">
+                
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Balance_scale.svg" alt="Balança representando o equilíbrio de uma equação do 1º grau" class="img-post" style="max-height: 200px;">
+                
+                <p>Uma equação do 1º grau é uma igualdade usada para descobrir um valor desconhecido, representado por uma letra (incógnita como o X).</p>
+                <blockquote class="bloco-formula"><strong>Formato Padrão:</strong> ax + b = 0</blockquote>
+                <p>O objetivo principal é isolar a letra. Pense nela como uma balança: tudo o que você faz de um lado, deve fazer do outro. Tudo que muda de lado da igualdade inverte sua operação (o que está somando passa subtraindo, e o que está multiplicando passa dividindo).</p>
+
+                <div class="secao-quiz">
+                    <h3>✍️ Simulado: 10 Questões do Conteúdo</h3>
+                    <div id="quiz-dinamico-equacao1" class="quiz-container-dinamico"></div>
+                </div>
+                <button class="btn-ler" onclick="mudarPagina('home')">⬅ Voltar para Conteúdos</button>
+            </article>
+        </div>
+
+        <div id="post-funcao1" class="pagina">
+            <article class="card-post">
+                <h2>Função do 1º Grau: Linhas Retas e Comportamentos</h2>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ccc;">
+                <p>A função de 1º grau (ou função afim) relaciona duas variáveis e seu gráfico gera sempre uma <strong>linha reta</strong>.</p>
+                <blockquote class="bloco-formula"><strong>Fórmula Geral:</strong> f(x) = ax + b</blockquote>
+                
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Linear_Function_Graph.svg" alt="Gráfico de Função Linear mostrando retas" class="img-post">
+
+                <p>O segredo para saber o comportamento do gráfico está no valor de <strong>'a'</strong> (coeficiente angular):</p>
+                <ul>
+                    <li><strong>Função Crescente:</strong> Ocorre quando <strong>a > 0</strong> (positivo). Conforme o valor de X aumenta, o valor de Y também aumenta. A reta sobe da esquerda para a direita.</li>
+                    <li><strong>Função Decrescente:</strong> Ocorre quando <strong>a < 0</strong> (negativo). Conforme o valor de X aumenta, o valor de Y diminui. A reta desce da esquerda para a direita.</li>
+                </ul>
+
+                <div class="secao-quiz">
+                    <h3>✍️ Simulado: 10 Questões do Conteúdo</h3>
+                    <div id="quiz-dinamico-funcao1" class="quiz-container-dinamico"></div>
+                </div>
+                <button class="btn-ler" onclick="mudarPagina('home')">⬅ Voltar para Conteúdos</button>
+            </article>
+        </div>
+
+        <div id="post-bhaskara" class="pagina">
+            <article class="card-post">
+                <h2>Equações do 2º Grau e a Fórmula de Bhaskara</h2>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ccc;">
+                
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Quadratic_formula.svg" alt="Fórmula de Bhaskara" class="img-post" style="max-height: 120px; padding: 10px;">
+                
+                <p>Identificada quando o maior expoente da incógnita é 2 ($x^2$). A fórmula de Bhaskara é o método mais conhecido para encontrar as raíces (os valores de X que zeram a equação).</p>
+                <blockquote class="bloco-formula">
+                    <strong>Estrutura:</strong> ax² + bx + c = 0 <br>
+                    <strong>Delta:</strong> &Delta; = b² - 4ac
+                </blockquote>
+                <p>Dependendo do valor de &Delta; (Delta), a equação pode ter duas soluções reais, uma única solução ou nenhuma solução real.</p>
+
+                <div class="secao-quiz">
+                    <h3>✍️ Simulado: 10 Questões do Conteúdo</h3>
+                    <div id="quiz-dinamico-bhaskara" class="quiz-container-dinamico"></div>
+                </div>
+                <button class="btn-ler" onclick="mudarPagina('home')">⬅ Voltar para Conteúdos</button>
+            </article>
+        </div>
+
+        <div id="post-funcao2" class="pagina">
+            <article class="card-post">
+                <h2>Função do 2º Grau: Curvas, Parábolas e Vértices</h2>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ccc;">
+                <p>A função de 2º grau (quadrática) possui o formato $f(x) = ax^2 + bx + c$ e seu gráfico é uma curva chamada <strong>parábola</strong>.</p>
+                
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/13/Parabola_features.svg" alt="Gráfico de parábola matemática mostrando elementos e concavidade" class="img-post">
+
+                <h3>A Concavidade e o Comportamento</h3>
+                <ul>
+                    <li><strong>Se a > 0 (Positivo):</strong> A concavidade é voltada para <strong>cima</strong> (formato de sorriso).</li>
+                    <li><strong>Se a < 0 (Negativo):</strong> A concavidade é voltada para <strong>baixo</strong> (formato de montanha).</li>
+                </ul>
+
+                <h3>O Vértice da Parábola</h3>
+                <blockquote class="bloco-formula">
+                    <strong>X do Vértice:</strong> X_v = -b / 2a <br>
+                    <strong>Y do Vértice:</strong> Y_v = -&Delta; / 4a
+                </blockquote>
+
+                <div class="secao-quiz">
+                    <h3>✍️ Simulado: 10 Questões do Conteúdo</h3>
+                    <div id="quiz-dinamico-funcao2" class="quiz-container-dinamico"></div>
+                </div>
+                <button class="btn-ler" onclick="mudarPagina('home')">⬅ Voltar para Conteúdos</button>
+            </article>
+        </div>
+
+        <div id="post-sistemas" class="pagina">
+            <article class="card-post">
+                <h2>Sistemas de Equações e o Número de Incógnitas</h2>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ccc;">
+                
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Linear_system_of_equations.svg" alt="Gráfico mostrando a intersecção de duas retas em um sistema de equações" class="img-post">
+
+                <p>Quando temos duas variáveis desconhecidas (X e Y), formamos um sistema. Graficamente, a resposta de um sistema linear é exatamente <strong>o ponto onde duas retas se cruzam</strong> (como na imagem acima).</p>
+                
+                <ul>
+                    <li><strong>Método da Substituição:</strong> Isolamos uma das letras em uma equação e jogamos na outra.</li>
+                    <li><strong>Método da Adição:</strong> Somamos ou subtraímos as duas equações para anular temporariamente uma variável.</li>
+                </ul>
+
+                <div class="secao-quiz">
+                    <h3>✍️ Simulado: 10 Questões do Conteúdo</h3>
+                    <div id="quiz-dinamico-sistemas" class="quiz-container-dinamico"></div>
+                </div>
+                <button class="btn-ler" onclick="mudarPagina('home')">⬅ Voltar para Conteúdos</button>
+            </article>
+        </div>
+
+        <div id="post-pitagoras" class="pagina">
+            <article class="card-post">
+                <h2>O Teorema de Pitágoras no Dia a Dia</h2>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ccc;">
+                
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/Pythagorean_theorem_abc.svg" alt="Triângulo retângulo com catetos b, c e hipotenusa a" class="img-post">
+
+                <blockquote class="bloco-formula"><strong>Teorema:</strong> a&sup2; = b&sup2; + c&sup2;</blockquote>
+                <p>Estabelece que, em qualquer triângulo retângulo (que possui um ângulo de 90°), o quadrado do comprimento da hipotenusa (o lado maior) é igual à soma dos quadrados dos catetos.</p>
+                
+                <div class="secao-quiz">
+                    <h3>✍️ Simulado: 10 Questões do Conteúdo</h3>
+                    <div id="quiz-dinamico-pitagoras" class="quiz-container-dinamico"></div>
+                </div>
+                <button class="btn-ler" onclick="mudarPagina('home')">⬅ Voltar para Conteúdos</button>
+            </article>
+        </div>
+
+        <div id="post-trig" class="pagina">
+            <article class="card-post">
+                <h2>Trigonometria: Seno, Cosseno e Tangente</h2>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ccc;">
+                
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7f/Trigonometry_triangle_definitions.svg" alt="Relações trigonométricas de um triângulo retângulo" class="img-post">
+
+                <p>Estudo das proporções dos triângulos retângulos através das divisões clássicas de catetos e hipotenusas.</p>
+                <blockquote class="bloco-formula"><strong>Mnemônico:</strong> SOH-CAH-TOA</blockquote>
+                <ul>
+                    <li><strong>Seno (SOH):</strong> Cateto Oposto / Hipotenusa</li>
+                    <li><strong>Cosseno (CAH):</strong> Cateto Adjacente / Hipotenusa</li>
+                    <li><strong>Tangente (TOA):</strong> Cateto Oposto / Cateto Adjacente</li>
+                </ul>
+                
+                <div class="secao-quiz">
+                    <h3>✍️ Simulado: 10 Questões do Conteúdo</h3>
+                    <div id="quiz-dinamico-trig" class="quiz-container-dinamico"></div>
+                </div>
+                <button class="btn-ler" onclick="mudarPagina('home')">⬅ Voltar para Conteúdos</button>
+            </article>
+        </div>
+
+        <div id="post-nasa" class="pagina">
+            <article class="card-post">
+                <h2>O Erro de 125 Milhões de Dólares da NASA</h2>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ccc;">
+                
+                <img src="https://images.unsplash.com/photo-1614313913007-2b4ae8ce32d6?w=800&auto=format&fit=crop&q=80" alt="Marte" class="img-post">
+                
+                <p>A importância real dos padrões de medidas aplicados à engenharia aeroespacial e de software. O não alinhamento entre o Sistema Imperial e o Sistema Métrico custou a destruição de uma sonda marciana inteira.</p>
+                
+                <div class="secao-quiz">
+                    <h3>✍️ Simulado: 10 Questões do Conteúdo</h3>
+                    <div id="quiz-dinamico-nasa" class="quiz-container-dinamico"></div>
+                </div>
+                <button class="btn-ler" onclick="mudarPagina('home')">⬅ Voltar para Conteúdos</button>
+            </article>
+        </div>
+
+        <div id="sobre" class="pagina">
+            <section class="card-post" style="text-align: center;">
+                <h2>Dúvidas ou Sugestões?</h2>
+                <p>Envie sua mensagem através do nosso formulário oficial do Google.</p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdmST9gwkL9cJqov0VzL7QAuUWN0vUOEoOAcfiQsXhGRga_XA/viewform?embedded=true" target="_blank" class="btn-ler" style="text-decoration: none;">
+                    📋 Responder Formulário de Contato
+                </a>
+            </section>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Matemática Descomplicada. Criado por Felipe para atividade avaliativa.</p>
+    </footer>
+
+    <script>
+        // 1. Lógica do Modo Escuro
+        const botaoTema = document.getElementById('btn-tema');
+        botaoTema.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            botaoTema.textContent = document.body.classList.contains('dark-mode') ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+        });
+
+        // 2. Lógica de Navegação
+        function mudarPagina(idPagina) {
+            document.querySelectorAll('.pagina').forEach(p => p.classList.remove('ativa'));
+            document.getElementById(idPagina).classList.add('ativa');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 3. BANCO DE DADOS DO QUIZ (80 Questões)
+        const bancoQuestoes = {
+            "equacao1": [
+                { q: "Resolva: x + 5 = 12. Qual o valor de x?", o: ["5", "7", "12", "17"], c: 1 },
+                { q: "Resolva: 2x = 20. Qual o valor de x?", o: ["5", "10", "20", "40"], c: 1 },
+                { q: "Resolva: 3x - 9 = 0. Qual o valor de x?", o: ["0", "3", "6", "9"], c: 1 },
+                { q: "Resolva: x/2 = 8. Qual o valor de x?", o: ["4", "6", "10", "16"], c: 3 },
+                { q: "Resolva: 5x + 10 = 30. Qual o valor de x?", o: ["2", "4", "6", "8"], c: 1 },
+                { q: "Resolva: 4x - 4 = 12. Qual o valor de x?", o: ["2", "4", "6", "8"], c: 1 },
+                { q: "Resolva: 10 - x = 3. Qual o valor de x?", o: ["3", "5", "7", "13"], c: 2 },
+                { q: "Resolva: 7x = 49. Qual o valor de x?", o: ["6", "7", "8", "9"], c: 1 },
+                { q: "Resolva: 2x + 5 = x + 12. Qual o valor de x?", o: ["5", "7", "9", "12"], c: 1 },
+                { q: "Resolva: 3(x - 2) = 12. Qual o valor de x?", o: ["4", "5", "6", "7"], c: 2 }
+            ],
+            "funcao1": [
+                { q: "Na função f(x) = 2x + 3, qual o coeficiente angular?", o: ["2", "3", "x", "5"], c: 0 },
+                { q: "Na função f(x) = -5x + 8, qual o coeficiente linear?", o: ["-5", "x", "8", "3"], c: 2 },
+                { q: "Se f(x) = 3x + 1, qual o valor de f(2)?", o: ["5", "6", "7", "8"], c: 2 },
+                { q: "Se f(x) = 4x - 2, qual o valor de f(0)?", o: ["0", "4", "2", "-2"], c: 3 },
+                { q: "O gráfico de uma função do 1º grau é sempre uma:", o: ["Parábola", "Reta", "Circunferência", "Curva"], c: 1 },
+                { q: "A função f(x) = -3x + 4 é crescente ou decrescente?", o: ["Crescente", "Decrescente", "Constante", "Nenhuma"], c: 1 },
+                { q: "A função f(x) = 5x - 2 é crescente ou decrescente?", o: ["Crescente", "Decrescente", "Constante", "Nenhuma"], c: 0 },
+                { q: "Onde o gráfico de f(x) = 2x + 6 corta o eixo Y?", o: ["No ponto 2", "No ponto 6", "No ponto 0", "No ponto -3"], c: 1 },
+                { q: "Se f(x) = x + 10, qual o valor de f(-3)?", o: ["7", "13", "-7", "-13"], c: 0 },
+                { q: "Qual o zero da função f(x) = 2x - 8?", o: ["2", "4", "8", "-4"], c: 1 }
+            ],
+            "bhaskara": [
+                { q: "Na equação x² - 5x + 6 = 0, qual o valor do coeficiente 'a'?", o: ["0", "1", "-5", "6"], c: 1 },
+                { q: "Na equação 2x² + 4x - 3 = 0, qual o valor do coeficiente 'b'?", o: ["2", "4", "-3", "0"], c: 1 },
+                { q: "Qual a fórmula correta do discriminante Delta?", o: ["Δ = b² + 4ac", "Δ = b² - 4ac", "Δ = b - 4ac", "Δ = 2b - 4ac"], c: 1 },
+                { q: "Se o Delta (Δ) for igual a zero, a equação possui:", o: ["Nenhuma raiz real", "Duas raízes reais e iguais", "Duas raízes reais e diferentes", "Infinitas raízes"], c: 1 },
+                { q: "Se o Delta (Δ) for negativo, a equação possui:", o: ["Nenhuma raiz real", "Duas raízes reais iguais", "Duas raízes reais diferentes", "Uma raiz"], c: 0 },
+                { q: "Calcule o Delta de x² - 4x + 4 = 0:", o: ["16", "8", "0", "-16"], c: 2 },
+                { q: "Quais as raízes da equação x² - 9 = 0?", o: ["3 e 0", "9 e -9", "3 e -3", "Não tem raiz"], c: 2 },
+                { q: "Na fórmula de Bhaskara, a base do divisor é:", o: ["2", "a", "2a", "4a"], c: 2 },
+                { q: "Calcule o Delta de x² - 5x + 4 = 0:", o: ["9", "25", "16", "1"], c: 0 },
+                { q: "Quais as raízes da equação x² - 3x + 2 = 0?", o: ["1 e 2", "-1 e -2", "0 e 3", "1 e 3"], c: 0 }
+            ],
+            "funcao2": [
+                { q: "O gráfico de uma função do 2º grau é uma:", o: ["Reta", "Hipérbole", "Parábola", "Elipse"], c: 2 },
+                { q: "Se o termo 'a' for positivo (a > 0), a parábola tem a concavidade voltada para:", o: ["Cima", "Baixo", "Esquerda", "Direita"], c: 0 },
+                { q: "Se o termo 'a' for negativo (a < 0), a parábola tem a concavidade voltada para:", o: ["Cima", "Baixo", "Esquerda", "Direita"], c: 1 },
+                { q: "O ponto mais alto ou mais baixo de uma parábola chama-se:", o: ["Foco", "Vértice", "Eixo", "Zero"], c: 1 },
+                { q: "Quantos pontos de interseção com o eixo X a função tem se Δ > 0?", o: ["Nenhum", "Um ponto", "Dois pontos", "Três pontos"], c: 2 },
+                { q: "Na função f(x) = x² - 4x + 5, onde a curva corta o eixo Y?", o: ["No 1", "No -4", "No 5", "No 0"], c: 2 },
+                { q: "Qual a fórmula correta para encontrar a coordenada X do vértice?", o: ["Xv = -b / 2a", "Xv = -Δ / 4a", "Xv = b / a", "Xv = -c / a"], c: 0 },
+                { q: "Qual a fórmula correta para encontrar a coordenada Y do vértice?", o: ["Yv = -b / 2a", "Yv = -Δ / 4a", "Yv = Δ / 2a", "Yv = -c / 4a"], c: 1 },
+                { q: "Se f(x) = -x² + 4, o vértice representa um ponto de máximo ou de mínimo?", o: ["Máximo", "Mínimo", "Nenhum", "Ambos"], c: 0 },
+                { q: "Uma parábola com concavidade para cima (a > 0) possui ponto de:", o: ["Máximo", "Mínimo", "Inflexão", "Origem"], c: 1 }
+            ],
+            "sistemas": [
+                { q: "Quantas incógnitas (letras) possui a equação 3x - 6 = 12?", o: ["Uma", "Duas", "Três", "Nenhuma"], c: 0 },
+                { q: "Qual o valor de x na equação simples de 1 incógnita: 2x = 10?", o: ["2", "5", "10", "20"], c: 1 },
+                { q: "Se x + y = 10 e x - y = 2, qual o valor de x?", o: ["4", "5", "6", "7"], c: 2 },
+                { q: "No mesmo sistema anterior (x+y=10 e x-y=2), qual o valor de y?", o: ["2", "3", "4", "5"], c: 2 },
+                { q: "Qual método consiste em isolar uma letra e colocá-la na outra equação?", o: ["Adição", "Substituição", "Determinante", "Bhaskara"], c: 1 },
+                { q: "Qual método consiste em somar as duas linhas para cortar uma letra?", o: ["Adição", "Substituição", "Gráfico", "Fatoração"], c: 0 },
+                { q: "Resolva o sistema simples por substituição: x = 2y e x + y = 6. Qual o valor de y?", o: ["1", "2", "3", "4"], c: 1 },
+                { q: "Com y=2 no problema anterior (x=2y), qual o valor de x?", o: ["2", "4", "6", "8"], c: 1 },
+                { q: "Se somarmos as equações (2x + y = 7) e (x - y = 2), obtemos qual resultado?", o: ["x = 5", "3x = 9", "3x = 5", "y = 9"], c: 1 },
+                { q: "Um sistema de duas equações com duas variáveis pode originar no plano duas:", o: ["Parábolas", "Retas", "Circunferências", "Curvas"], c: 1 }
+            ],
+            "pitagoras": [
+                { q: "O Teorema de Pitágoras aplica-se apenas a triângulos:", o: ["Equiláteros", "Isósceles", "Retângulos", "Acutângulos"], c: 2 },
+                { q: "O maior lado de um triângulo retângulo, oposto ao ângulo reto, é a:", o: ["Adjacente", "Hipotenusa", "Cateto", "Altura"], c: 1 },
+                { q: "Os dois lados menores que formam o ângulo de 90° são chamados de:", o: ["Hipotenusas", "Catetos", "Bases", "Vértices"], c: 1 },
+                { q: "Qual a fórmula oficial do Teorema de Pitágoras?", o: ["a = b + c", "a² = b² + c²", "a² = b² - c²", "a = b² &middot; c²"], c: 1 },
+                { q: "Se os catetos medem 3 e 4, quanto mede a hipotenusa?", o: ["5", "7", "12", "25"], c: 0 },
+                { q: "Se os catetos medem 6 e 8, quanto mede a hipotenusa?", o: ["10", "14", "48", "100"], c: 0 },
+                { q: "Se a hipotenusa é 13 e um cateto é 5, qual o outro cateto?", o: ["8", "10", "12", "15"], c: 2 },
+                { q: "Num triângulo retângulo, o quadrado da hipotenusa é igual à ___ dos quadrados dos catetos:", o: ["Subtração", "Divisão", "Soma", "Multiplicação"], c: 2 },
+                { q: "Se os catetos medem 5 e 12, qual o valor do quadrado da hipotenusa (a²)?", o: ["144", "169", "25", "100"], c: 1 },
+                { q: "Qual o valor da hipotenusa para o exercício anterior (a²=169)?", o: ["11", "12", "13", "14"], c: 2 }
+            ],
+            "trig": [
+                { q: "O Seno de um ângulo é a divisão entre:", o: ["Cateto Oposto / Hipotenusa", "Cateto Adjacente / Hipotenusa", "Cateto Oposto / Cateto Adjacente", "Hipotenusa / Cateto Oposto"], c: 0 },
+                { q: "O Cosseno de um ângulo é a divisão entre:", o: ["Cateto Oposto / Hipotenusa", "Cateto Adjacente / Hipotenusa", "Cateto Oposto / Cateto Adjacente", "Hipotenusa / Cateto Adjacente"], c: 1 },
+                { q: "A Tangente de um ângulo é a divisão entre:", o: ["Cateto Oposto / Hipotenusa", "Cateto Adjacente / Hipotenusa", "Cateto Oposto / Cateto Adjacente", "Hipotenusa / Cateto Oposto"], c: 2 },
+                { q: "Qual o mnemônico famoso usado para lembrar as três razões?", o: ["SOH-CAH-TOA", "PIT-BHAS-FUN", "ABC-123", "SENO-COS-TG"], c: 0 },
+                { q: "Qual o valor do Seno de 30°?", o: ["0", "0.5", "1", "0.866"], c: 1 },
+                { q: "Qual o valor do Cosseno de 60°?", o: ["0.5", "0.866", "1", "0"], c: 0 },
+                { q: "Num triângulo, se o cateto oposto é 4 e a hipotenusa é 8, o seno vale:", o: ["0.2", "0.5", "2", "0.8"], c: 1 },
+                { q: "Os valores de Seno e Cosseno no triângulo retângulo estão sempre entre:", o: ["-1 e 1", "0 e 1", "1 e 10", "0 e 100"], c: 1 },
+                { q: "A hipotenusa mede 10m. O sen(30°)=0.5. Qual o tamanho do cateto oposto?", o: ["2m", "5m", "7m", "20m"], c: 1 },
+                { q: "Se dividirmos o Seno pelo Cosseno de um mesmo ângulo, obtemos a:", o: ["Hipotenusa", "Secante", "Tangente", "Cotangente"], c: 2 }
+            ],
+            "nasa": [
+                { q: "Em que ano ocorreu o famoso acidente com a sonda da NASA por erro matemático?", o: ["1989", "1995", "1999", "2005"], c: 2 },
+                { q: "Qual foi o valor aproximado do prejuízo em dólares dessa missão?", o: ["10 Milhões", "50 Milhões", "125 Milhões", "1 Bilhão"], c: 2 },
+                { q: "O erro aconteceu devido à confusão entre quais sistemas de medidas?", o: ["Métrico e Imperial", "Métrico e Binário", "Imperial e Romano", "Nenhum deles"], c: 0 },
+                { q: "A sonda perdida tinha o objetivo de orbitar qual planeta?", o: ["Vênus", "Marte", "Júpiter", "Saturno"], c: 1 },
+                { q: "A falha ocorreu entre as equipes da NASA e de qual grande empresa parceira?", o: ["Boeing", "Lockheed Martin", "SpaceX", "Blue Origin"], c: 1 },
+                { q: "Uma equipe calculava em milímetros/metros e a outra em:", o: ["Polegadas/Libras", "Quilos/Litros", "Anos-luz", "Milhas náuticas"], c: 0 },
+                { q: "Esse erro histórico nos ensina a importância crucial da:", o: ["Velocidade do código", "Padronização e checagem de unidades", "Inteligência artificial", "Falta de testes"], c: 1 },
+                { q: "A sonda acabou sendo destruída devido a qual fator físico?", o: ["Falta de energia solar", "Desintegração ou perda na atmosfera de Marte", "Colisão com um asteroide", "Explosão interna no lançamento"], c: 1 },
+                { q: "Na programação de softwares, esse tipo de problema é classificado como:", o: ["Erro de Sintaxe", "Bug de Lógica / Falha de comunicação de dados", "Vírus", "Queda de servidor"], c: 1 },
+                { q: "Sistemas internacionais usam o SI (Sistema Internacional). O sistema americano usa o:", o: ["Sistema Métrico", "Sistema Imperial / Inglês", "Sistema Europeu", "Sistema Digital"], c: 1 }
+            ]
+        };
+
+        // 4. GERAÇÃO DINÂMICA DOS QUIZZES
+        function gerarQuizzesDinamicos() {
+            const mapeamento = {
+                "quiz-dinamico-equacao1": "equacao1",
+                "quiz-dinamico-funcao1": "funcao1",
+                "quiz-dinamico-bhaskara": "bhaskara",
+                "quiz-dinamico-funcao2": "funcao2",
+                "quiz-dinamico-sistemas": "sistemas",
+                "quiz-dinamico-pitagoras": "pitagoras",
+                "quiz-dinamico-trig": "trig",
+                "quiz-dinamico-nasa": "nasa"
+            };
+
+            for (let idElemento in mapeamento) {
+                const container = document.getElementById(idElemento);
+                if (!container) continue;
+                
+                const chaveMateria = mapeamento[idElemento];
+                const listaQuestoes = bancoQuestoes[chaveMateria];
+
+                listaQuestoes.forEach((questao, index) => {
+                    const idQuestaoUnico = `${chaveMateria}_q${index}`;
+                    const idFeedbackUnico = `feedback_${chaveMateria}_${index}`;
+                    
+                    let htmlOpcoes = '';
+                    questao.o.forEach((opcao, oIdx) => {
+                        const valorOpcao = oIdx === questao.c ? "correto" : "errado";
+                        htmlOpcoes += `
+                            <label class="quiz-opcao">
+                                <input type="radio" name="${idQuestaoUnico}" value="${valorOpcao}">
+                                ${opcao}
+                            </label>
+                        `;
+                    });
+
+                    const bloco = document.createElement('div');
+                    bloco.className = 'bloco-questao';
+                    bloco.innerHTML = `
+                        <h4>Questão ${index + 1}: ${questao.q}</h4>
+                        ${htmlOpcoes}
+                        <button class="btn-verificar" onclick="validarRespostaDinamicamente('${idQuestaoUnico}', '${idFeedbackUnico}')">Verificar</button>
+                        <div id="${idFeedbackUnico}" class="feedback-resposta"></div>
+                    `;
+                    container.appendChild(bloco);
+                });
+            }
+        }
+
+        // 5. VALIDAÇÃO EM TEMPO REAL
+        function validarRespostaDinamicamente(nomeInput, idFeedback) {
+            const selecionado = document.querySelector(`input[name="${nomeInput}"]:checked`);
+            const feedback = document.getElementById(idFeedback);
+            
+            if (!selecionado) {
+                alert("Felipe avisa: Selecione uma opção antes de verificar!");
+                return;
+            }
+
+            feedback.style.display = "block";
+            feedback.className = "feedback-resposta";
+
+            if (selecionado.value === "correto") {
+                feedback.textContent = "🎉 Resposta Correta! Excelente!";
+                feedback.classList.add("feedback-sucesso");
+            } else {
+                feedback.textContent = "❌ Resposta Incorreta. Tente outra alternativa!";
+                feedback.classList.add("feedback-erro");
+            }
+        }
+
+        window.onload = function() {
+            gerarQuizzesDinamicos();
+        };
+    </script>
+</body>
+</html>
